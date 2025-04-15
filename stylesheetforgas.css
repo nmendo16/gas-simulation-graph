@@ -1,6 +1,6 @@
 
     .scale-wrapper {
-      transform: scale(0.70);         /* scale the iframe */
+      transform: scale(0.60);         /* scale the iframe */
       transform-origin: top center;     /* scale from top-left */
       width: 1024px;
       height: 500px;
