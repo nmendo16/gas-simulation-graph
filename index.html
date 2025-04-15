@@ -3,63 +3,41 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./stylesheetforgas.css" />
   <title>Interactive Line Graph</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
-    body {
-      font-family: sans-serif;
-      padding: 20px;
-    }
-    input {
-      width: 60px;
-      margin: 5px;
-    }
-    .container {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-    canvas {
-      max-width: 100%;
-    }
-  </style>
+  
 </head>
 <body>
+  
   <h2>Interactive Line Graph</h2>
-  <p>Enter values for X and Y (up to 10 points):</p>
+  <p>Enter values for Volume (ml) and Pressure (atm):</p>
 
   <div class="container">
-    <div>
-      <strong>X (L):</strong><br>
-      <input type="number" class="x" value="150">
-      <input type="number" class="x" value="200">
-      <input type="number" class="x" value="250">
-      <input type="number" class="x" value="300">
-      <input type="number" class="x" value="350">
-      <input type="number" class="x" value="400">
-      <input type="number" class="x" value="450">
-      <input type="number" class="x" value="500">
-      <input type="number" class="x" value="550">
-      <input type="number" class="x" value="600">
+    <div class="inputs">
+      <strong>Volume (L):</strong>
+      <input type="number" class="x" value="1000">
+      <input type="number" class="x">
+      <input type="number" class="x">
+      <input type="number" class="x">
+      <input type="number" class="x">
+      <input type="number" class="x">
+    </div>
+    <div class="inputs">
+      <strong>Pressure (atm):</strong>
+      <input type="number" class="y" value="4.00">
+      <input type="number" class="y">
+      <input type="number" class="y">
+      <input type="number" class="y">
+      <input type="number" class="y">
+      <input type="number" class="y">
     </div>
     <div>
-      <strong>Y:</strong><br>
-      <input type="number" class="y" value="10">
-      <input type="number" class="y" value="20">
-      <input type="number" class="y" value="25">
-      <input type="number" class="y" value="35">
-      <input type="number" class="y" value="45">
-      <input type="number" class="y" value="30">
-      <input type="number" class="y" value="60">
-      <input type="number" class="y" value="55">
-      <input type="number" class="y" value="70">
-      <input type="number" class="y" value="80">
+      <canvas id="lineChart"></canvas>
     </div>
   </div>
 
   <button onclick="updateChart()">Update Graph</button>
-
-  <canvas id="lineChart"></canvas>
 
   <script>
     const ctx = document.getElementById('lineChart').getContext('2d');
@@ -72,7 +50,6 @@
       const xValues = Array.from(xInputs).map(input => Number(input.value));
       const yValues = Array.from(yInputs).map(input => Number(input.value));
 
-      // Sort by X values and reverse for right-to-left display
       const combined = xValues.map((x, i) => ({ x, y: yValues[i] }))
         .sort((a, b) => b.x - a.x);
 
@@ -86,7 +63,7 @@
         data: {
           labels: sortedX,
           datasets: [{
-            label: 'Y vs X',
+            label: 'Pressure vs Volume',
             data: sortedY,
             borderColor: 'blue',
             fill: false,
@@ -95,17 +72,23 @@
         },
         options: {
           responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+          legend:  {
+            onClick: null // disables clicking on legend 
+                  }
+                  },
           scales: {
             x: {
               title: {
                 display: true,
-                text: 'X (L)'
+                text: 'Volume (L)'
               }
             },
             y: {
               title: {
                 display: true,
-                text: 'Y'
+                text: 'Pressure (atm)'
               }
             }
           }
@@ -114,6 +97,32 @@
     }
 
     window.onload = updateChart;
+    
   </script>
+
+  <h2><br>Gas Law Simulation</h2>
+  <p>Explore the Ideal Gas Law using the simulation below:</p>
+
+  <div class="scale-wrapper">
+    <iframe
+      src="https://ch301.cm.utexas.edu/simulations/js/idealgaslaw/"
+      width="1024"
+      height="768"
+      style="border: none;"
+    ></iframe>
+  </div>
+  <div style="font-size: 0.9em; margin-top: 30px; text-align: center;">
+    <p><strong>Attribution:</strong></p>
+    <p>
+      The Ideal Gas Law simulation embedded in this page was originally developed as part of
+      <a href="https://ch301.cm.utexas.edu/index.php" target="_blank">Chemistry 301 at the University of Texas at Austin</a>.<br>
+     <br><em>Note: This resource is no longer actively maintained and was scheduled for retirement in 2018.
+      Users are encouraged to visit the updated site at</em>
+      <a href="https://gchem.cm.utexas.edu" target="_blank">gchem.cm.utexas.edu</a>
+      <em>for current simulations and materials.</em><br><br>
+      &copy; University of Texas at Austin.
+    </p>
+  </div>
+  
 </body>
 </html>
