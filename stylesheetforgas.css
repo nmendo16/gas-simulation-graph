@@ -14,7 +14,7 @@
   padding: 1em;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
-  overflow-y: auto;
+  overflow-y: hidden;
   display: grid;
   grid-template-columns: 1fr 1fr 2fr;
   gap: 20px;
