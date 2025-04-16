@@ -21,28 +21,35 @@
       ></iframe>
     </div>
   
-  <p>Enter values for Volume (ml) and Pressure (atm):</p>
-
+    
   <div class="container">
-    <div class="inputs">
-      <strong>Volume (L):</strong>
+    <div class="instructions">
+        <p>Enter  the Volume (L) and Pressure (atm) values below, <br>then click the Update Graph button to plot your data on the graph.</p>
+    </div>      
+    
+    <div class="inputs" >
+      <strong>Volume</strong>
+      <input type="number" class="x" value="200">
+      <input type="number" class="x" value="300">
+      <input type="number" class="x" value="450">
+      <input type="number" class="x" value="600">
+      <input type="number" class="x" value="700">
+      <input type="number" class="x" value="800">
+      <input type="number" class="x" value="900">
       <input type="number" class="x" value="1000">
-      <input type="number" class="x">
-      <input type="number" class="x">
-      <input type="number" class="x">
-      <input type="number" class="x">
-      <input type="number" class="x">
     </div>
-    <div class="inputs">
-      <strong>Pressure (atm):</strong>
-      <input type="number" class="y" value="4.00">
-      <input type="number" class="y">
-      <input type="number" class="y">
-      <input type="number" class="y">
-      <input type="number" class="y">
-      <input type="number" class="y">
+    <div class="inputs" id="pressure-inputs">
+      <strong>Pressure</strong>
+      <input type="number" class="y" value="28">
+      <input type="number" class="y" value="14">
+      <input type="number" class="y" value="9">
+      <input type="number" class="y" value="7">
+      <input type="number" class="y" value="6">
+      <input type="number" class="y" value="5">
+      <input type="number" class="y" value="4">
+      <input type="number" class="y" value="3">
     </div>
-    <div>
+    <div class="chart">
       <canvas id="lineChart"></canvas>
     </div>
      
@@ -55,57 +62,68 @@
     let chart;
 
     function updateChart() {
-      const xInputs = document.querySelectorAll('.x');
-      const yInputs = document.querySelectorAll('.y');
+  const xInputs = document.querySelectorAll('.x');
+  const yInputs = document.querySelectorAll('.y');
 
-      const xValues = Array.from(xInputs).map(input => Number(input.value));
-      const yValues = Array.from(yInputs).map(input => Number(input.value));
+  const points = [];
 
-      const combined = xValues.map((x, i) => ({ x, y: yValues[i] }))
-        .sort((a, b) => b.x - a.x);
+  for (let i = 0; i < xInputs.length; i++) {
+    const x = Number(xInputs[i].value);
+    const y = Number(yInputs[i].value);
+    if (!isNaN(x) && !isNaN(y)) {
+      points.push({ x, y });
+    }
+  }
 
-      const sortedX = combined.map(point => point.x);
-      const sortedY = combined.map(point => point.y);
+  // Sort by volume so lines connect left to right
+  points.sort((a, b) => a.x - b.x);
 
-      if (chart) chart.destroy();
-
-      chart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: sortedX,
-          datasets: [{
-            label: 'Pressure vs Volume',
-            data: sortedY,
-            borderColor: 'orange',
-            fill: false,
-            tension: 0.1
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-          legend:  {
-            onClick: null // disables clicking on legend 
-                  }
-                  },
-          scales: {
-            x: {
-              title: {
-                display: true,
-                text: 'Volume (L)'
-              }
+  if (chart) {
+    chart.data.datasets[0].data = points;
+    chart.update();
+  } else {
+    chart = new Chart(ctx, {
+      type: 'line', // changed from 'scatter'
+      data: {
+        datasets: [{
+          label: 'Pressure and Volume Relationship',
+          data: points,
+          borderColor: 'orange',
+          backgroundColor: 'orange',
+          pointRadius: 6,
+          fill: false,
+          tension: 0.1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: {
+            type: 'linear',
+            position: 'bottom',
+            title: {
+              display: true,
+              text: 'Volume (L)'
             },
-            y: {
-              title: {
-                display: true,
-                text: 'Pressure (atm)'
-              }
-            }
+            min: 0,
+            max: 1500
+          },
+          y: {
+            title: {
+              display: true,
+              text: 'Pressure (atm)'
+            },
+            min: 0,
+            max: 30
           }
         }
-      });
-    }
+      }
+    });
+  }
+}
+
+
 
     window.onload = updateChart;
     
