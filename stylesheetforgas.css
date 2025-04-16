@@ -11,17 +11,26 @@
 
 .container {
   background: white;
-  padding: 1em;
+  padding: 2em;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
   overflow-y: hidden;
   display: grid;
-  grid-template-columns: 1fr 1fr 2fr;
-  gap: 20px;
+  grid-template-columns: 1fr 1fr 4fr;
+  gap: 1px;
   width: 100%;
   max-width: 600px;
-  margin-top: 30px;
-  border-radius: 15px
+  border-radius: 15px;
+  font-size: .9em;
+  line-height: 1.5em;
+}
+
+.instructions {
+  grid-column: 1 / -1; /* spans all columns */
+  margin-bottom: 1em;
+  font-weight: bold;
+  text-align: center;
+  font-size: 1em;
 }
 
 body {
@@ -36,19 +45,22 @@ body {
 h2,
 p {
   text-align: center;
-  margin: 0 0 0px;
+  margin: 0 0 10px;
 }
 
 
 .inputs {
+  width: 70%;
   display: flex;
+  align-items: center;
   flex-direction: column;
 }
 
 .inputs input {
-  width: 100px;
+  width: 70%;
   margin-bottom: 8px;
   padding: 5px;
+  text-align: right;
 }
 
 canvas {
@@ -64,6 +76,4 @@ button {
   border-color: rgba(252, 177, 3, 0.399);
   color: rgb(70, 51, 14);
   background-color: rgb(233, 161, 97);
-
-
 }
